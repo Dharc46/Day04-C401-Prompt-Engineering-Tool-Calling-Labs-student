@@ -9,7 +9,7 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Gửi một câu hỏi cho người dùng."
+    description: "Hỏi lại người dùng khi thiếu thông tin bắt buộc hoặc cần xác nhận trước khi thực hiện hành động. Dùng response_type 'yes_no' khi cần xác nhận hành động (gửi, đăng, xuất bản). Dùng response_type 'text' khi cần thông tin còn thiếu (screenname, URL, v.v.)."
     parameters:
       type: object
       properties:
@@ -19,7 +19,7 @@ tools:
       required: [question]
 
   - name: timeline
-    description: "Lấy các bài đăng gần đây."
+    description: "Lấy bài đăng gần đây của một tài khoản trên mạng xã hội. Screenname là bắt buộc và phải do người dùng cung cấp — không được tự đoán."
     parameters:
       type: object
       properties:
@@ -79,7 +79,7 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Gửi nội dung lên kênh Telegram. Chỉ dùng khi người dùng yêu cầu đăng hoặc gửi nội dung. Không dùng để trả lời người dùng. TRƯỚC KHI gọi tool này, BẮT BUỘC gọi clarify với response_type 'yes_no' để hỏi người dùng có muốn gửi không. Không hỏi nội dung — hỏi xác nhận hành động trước."
     parameters:
       type: object
       properties:
