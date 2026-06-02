@@ -116,3 +116,21 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  - name: rss_summary
+    description: "Tải RSS/Atom feed và trả về danh sách bài viết (title, url, summary)."
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "Feed URL"}
+        limit: {type: integer, default: 5, description: "Số mục tối đa"}
+      required: [url]
+
+  - name: entity_extract
+    description: "Trích xuất thực thể đơn giản từ văn bản bằng heuristic (capitalized sequences)."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Văn bản đầu vào"}
+        top_k: {type: integer, default: 10, description: "Số thực thể trả về"}
+      required: [text]
