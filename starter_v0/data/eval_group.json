@@ -31,10 +31,10 @@
     {
       "id": "G04_confirm_send_telegram",
       "phase": "B",
-      "query": "Đăng tin này lên Telegram giúp mình.",
+      "query": "Gửi nội dung 'Bản tin AI tuần này đã sẵn sàng' lên Telegram giúp mình.",
       "failure_type": "wrong_boundary",
       "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
-      "metadata": {"skill": "confirm_before_send_group", "difficulty": "medium", "what_it_tests": "Hành động gửi trong một câu đơn → phải hỏi yes/no xác nhận trước."}
+      "metadata": {"skill": "confirm_before_send_group", "difficulty": "medium", "what_it_tests": "Có nội dung rõ ràng nhưng hành động gửi → phải hỏi yes/no xác nhận trước, không gửi thẳng."}
     },
     {
       "id": "G05_out_of_scope_math",
@@ -102,12 +102,12 @@
       "metadata": {"skill": "multiturn_out_of_scope", "difficulty": "medium", "what_it_tests": "Yêu cầu code và ý tưởng không thuộc phạm vi research tool → không dùng tool."}
     },
     {
-      "id": "G11_translate_routing",
+      "id": "G11_translate_en_to_vi",
       "phase": "B",
       "query": "Dịch đoạn này sang tiếng Việt: 'Artificial intelligence is transforming how we work and live.'",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "translate", "args": {"target_lang": "vi"}}]},
-      "metadata": {"skill": "routing_translate", "difficulty": "easy", "what_it_tests": "Yêu cầu dịch rõ ràng → translate, không phải lookup hay fetch."}
+      "metadata": {"skill": "routing_translate", "difficulty": "easy", "what_it_tests": "Yêu cầu dịch rõ ràng có nội dung cụ thể → translate, không phải lookup hay fetch."}
     },
     {
       "id": "G12_trending_routing",
@@ -118,40 +118,40 @@
       "metadata": {"skill": "routing_trending", "difficulty": "medium", "what_it_tests": "Hỏi trending/hot trên Twitter mà KHÔNG có từ khóa → trending, không phải social_search."}
     },
     {
-      "id": "G13_youtube_routing",
+      "id": "G13_translate_missing_text",
       "phase": "B",
-      "query": "Tìm video YouTube về machine learning cho người mới bắt đầu",
-      "failure_type": "wrong_tool",
-      "expect": {"tool_calls": [{"name": "youtube", "args": {"query": "machine learning"}}]},
-      "metadata": {"skill": "routing_youtube", "difficulty": "easy", "what_it_tests": "Nói rõ 'video YouTube' → youtube, không phải lookup."}
+      "query": "Dịch giúp mình sang tiếng Việt",
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"skill": "boundary_translate_vs_clarify", "difficulty": "hard", "what_it_tests": "Yêu cầu dịch nhưng KHÔNG có nội dung cần dịch → clarify hỏi text, không phải gọi translate với text rỗng."}
     },
     {
-      "id": "G14_github_routing",
+      "id": "G14_github_vs_lookup_boundary",
       "phase": "B",
-      "query": "Tìm repo GitHub về LangChain",
+      "query": "Tìm thông tin về LangChain trên mạng",
       "failure_type": "wrong_tool",
-      "expect": {"tool_calls": [{"name": "github_search", "args": {"query": "LangChain"}}]},
-      "metadata": {"skill": "routing_github", "difficulty": "easy", "what_it_tests": "Nói rõ 'repo GitHub' → github_search, không phải lookup."}
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "LangChain"}}]},
+      "metadata": {"skill": "boundary_github_vs_lookup", "difficulty": "hard", "what_it_tests": "'trên mạng' = tìm web chung → lookup, KHÔNG phải github_search (dù LangChain là open-source). Chỉ dùng github_search khi user nói rõ GitHub/repo."}
     },
     {
       "id": "G15_save_vs_send",
       "phase": "B",
-      "query": "Lưu kết quả nghiên cứu này vào file markdown giúp mình",
+      "query": "Lưu đoạn văn sau vào file markdown giúp mình: 'AI đang thay đổi cách chúng ta làm việc và học tập.'",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "save", "args": {"format": "md"}}]},
-      "metadata": {"skill": "routing_save_not_send", "difficulty": "medium", "what_it_tests": "Lưu vào file cục bộ → save, không phải send (Telegram)."}
+      "metadata": {"skill": "routing_save_not_send", "difficulty": "medium", "what_it_tests": "Có nội dung rõ ràng, yêu cầu lưu vào file → save, không phải send (Telegram) hay clarify."}
     },
     {
-      "id": "G16_multiturn_papers_then_translate",
+      "id": "G16_multiturn_translate_with_text",
       "phase": "B",
       "turns": [
-        {"role": "user", "content": "Tìm paper về AI agents trên arXiv"},
-        {"role": "user", "content": "Dịch abstract sang tiếng Việt giúp mình"},
-        {"role": "user", "content": "Chỉ dịch thôi, không cần tìm thêm paper"}
+        {"role": "user", "content": "Dịch đoạn này sang tiếng Việt: 'Retrieval augmented generation improves factual accuracy.'"},
+        {"role": "user", "content": "À dịch sang tiếng Nhật đi"},
+        {"role": "user", "content": "Ừ, dịch đoạn đó sang tiếng Nhật giúp mình"}
       ],
-      "failure_type": "wrong_tool",
-      "expect": {"tool_calls": [{"name": "translate", "args": {"target_lang": "vi"}}]},
-      "metadata": {"skill": "multiturn_switch_to_translate", "difficulty": "hard", "what_it_tests": "3 turns: ban đầu tìm paper, sau đó chuyển sang dịch. Latest turn xác nhận chỉ dịch → translate."}
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "translate", "args": {"target_lang": "ja"}}]},
+      "metadata": {"skill": "multiturn_translate_lang_correction", "difficulty": "hard", "what_it_tests": "3 turns: có text cụ thể, sửa target_lang từ vi sang ja. Latest turn xác nhận giữ nguyên text."}
     },
     {
       "id": "G17_multiturn_trending_country_correction",

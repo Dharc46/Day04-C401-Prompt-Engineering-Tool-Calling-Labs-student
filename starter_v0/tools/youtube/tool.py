@@ -13,12 +13,12 @@ def youtube_search(query: str = "", limit: int = 5, sort_by: str = "relevance") 
         if not query.strip():
             raise ValueError("query is required")
         key = os.getenv("RAPIDAPI_KEY")
-        host = os.getenv("RAPIDAPI_YOUTUBE_HOST", "youtube-search-and-download.p.rapidapi.com")
+        host = os.getenv("RAPIDAPI_YOUTUBE_HOST", "youtube138.p.rapidapi.com")
         if not key:
             raise RuntimeError("Missing RAPIDAPI_KEY env var")
-        params: dict[str, Any] = {"query": query, "sort": sort_by}
+        params: dict[str, Any] = {"q": query, "sort": sort_by}
         response = requests.get(
-            f"https://{host}/search",
+            f"https://{host}/search/",
             params=params,
             headers={"x-rapidapi-key": key, "x-rapidapi-host": host},
             timeout=TIMEOUT,

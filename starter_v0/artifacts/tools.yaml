@@ -38,7 +38,7 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet. Use topic=news and timeframe=day for current news, and keep query just the subject term (do not append 'news')."
+    description: "Tra cứu thông tin trên internet. Khi người dùng nói 'tin' hoặc 'tin tức', dùng topic=news. Dùng timeframe=day cho 'hôm nay', week cho 'tuần này', month cho 'tháng này'. Chỉ đặt từ khóa chủ đề vào query, không thêm 'news' hay 'tin tức' vào query."
     parameters:
       type: object
       properties:

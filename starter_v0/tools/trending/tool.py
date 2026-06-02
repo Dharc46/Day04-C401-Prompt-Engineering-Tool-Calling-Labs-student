@@ -15,25 +15,22 @@ def get_trending(country: str = "vietnam", limit: int = 10) -> dict[str, Any]:
         if not key:
             raise RuntimeError("Missing RAPIDAPI_KEY env var")
         response = requests.get(
-            f"https://{host}/trending.php",
-            params={"country": country},
+            f"https://{host}/trends.php",
             headers={"x-rapidapi-key": key, "x-rapidapi-host": host},
             timeout=TIMEOUT,
         )
         response.raise_for_status()
         data = response.json()
-        raw_trends = data if isinstance(data, list) else data.get("trends") or data.get("timeline") or []
+        raw_trends = data.get("trends", []) if isinstance(data, dict) else data if isinstance(data, list) else []
         items = []
         for trend in raw_trends[:int(limit or 10)]:
             if isinstance(trend, dict):
                 items.append({
-                    "name": trend.get("name") or trend.get("trend") or "",
+                    "name": trend.get("name") or "",
                     "url": trend.get("url") or "",
                     "tweet_volume": trend.get("tweet_volume") or trend.get("volume"),
-                    "category": trend.get("category") or trend.get("domain_label"),
+                    "category": trend.get("context") or trend.get("description"),
                 })
-            elif isinstance(trend, str):
-                items.append({"name": trend, "url": "", "tweet_volume": None, "category": None})
         return {"tool": "trending", "country": country, "items": items}
     except Exception as exc:
         return err("trending", exc)
