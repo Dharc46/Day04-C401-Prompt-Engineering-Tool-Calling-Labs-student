@@ -159,15 +159,29 @@ def render_tool_rounds(turn: dict[str, Any]) -> None:
         return
     with st.expander("Tool calls and results", expanded=False):
         for round_record in rounds:
-            st.caption(f"Round {round_record.get('round')}")
+            st.markdown(f"**Round {round_record.get('round', '?')}**")
             tool_calls = round_record.get("tool_calls") or []
             tool_results = round_record.get("tool_results") or []
+
+            if not tool_calls and not tool_results:
+                st.caption("No tool calls in this round.")
+                continue
+
             if tool_calls:
-                st.markdown("**Calls**")
-                st.code(json_pretty(tool_calls), language="json")
+                st.caption("Calls")
+                for index, call in enumerate(tool_calls, start=1):
+                    name = call.get("name", "unknown") if isinstance(call, dict) else "unknown"
+                    with st.container(border=True):
+                        st.markdown(f"`{index}. {name}`")
+                        st.json(call, expanded=True)
+
             if tool_results:
-                st.markdown("**Results**")
-                st.code(json_pretty(tool_results), language="json")
+                st.caption("Results")
+                for index, result in enumerate(tool_results, start=1):
+                    name = result.get("tool", "unknown") if isinstance(result, dict) else "unknown"
+                    with st.container(border=True):
+                        st.markdown(f"`{index}. {name}`")
+                        st.json(result, expanded=False)
 
 
 def provider_error_message(error: str) -> str:
