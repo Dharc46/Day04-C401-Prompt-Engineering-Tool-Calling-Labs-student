@@ -36,6 +36,19 @@ st.set_page_config(page_title="Research Agent", page_icon=":", layout="wide")
 load_lab_env(ROOT)
 
 
+def load_streamlit_secrets() -> None:
+    try:
+        secrets = st.secrets
+    except Exception:
+        return
+    for key, value in secrets.items():
+        if isinstance(value, (str, int, float, bool)):
+            os.environ.setdefault(str(key), str(value))
+
+
+load_streamlit_secrets()
+
+
 def default_session() -> dict[str, Any]:
     return {
         "provider": "openrouter",
