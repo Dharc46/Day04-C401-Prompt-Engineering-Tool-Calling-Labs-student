@@ -42,6 +42,51 @@ Trong thư mục `starter_v0`, chạy:
 streamlit run ui.py
 ```
 
+## Local deployment
+
+Nếu muốn chạy trên máy local hoặc trên server/container, sử dụng một trong các cách sau:
+
+- Local: `python -m streamlit run starter_v0/ui.py`
+- Docker:
+  ```bash
+docker build -t research-agent .
+docker run -p 8501:8501 research-agent
+```
+- Streamlit Cloud:
+  1. Đăng nhập vào Streamlit Community Cloud.
+  2. Kết nối repo với project mới.
+  3. Chỉ định app file là `streamlit_app.py`.
+  4. Chỉ định `requirements.txt` ở root nếu được yêu cầu.
+  5. Thêm API keys, provider keys, và biến môi trường vào Secrets.
+
+  Các biến môi trường cần thêm tối thiểu giống `starter_v0/.env.example`:
+  - `OPENROUTER_API_KEY` hoặc `OPENAI_API_KEY` hoặc `ANTHROPIC_API_KEY` hoặc `GEMINI_API_KEY`
+  - `TAVILY_API_KEY`
+  - `FIRECRAWL_API_KEY`
+  - `RAPIDAPI_KEY`
+  - `RAPIDAPI_TWITTER_HOST`
+  - `ARXIV_USER_AGENT`
+
+## Server deploy với GitHub Actions
+
+Mở `Settings > Secrets` của repo và thêm các secrets sau:
+
+- `SSH_HOST`
+- `SSH_USER`
+- `SSH_PORT`
+- `SSH_PRIVATE_KEY`
+- `REMOTE_PATH`
+
+Sau đó chạy workflow `Deploy to server` từ tab Actions, hoặc push lên branch `main`.
+
+Workflow sẽ:
+
+1. Sao chép mã sang server qua SCP.
+2. Xây image Docker.
+3. Chạy container trên cổng `8501`.
+
+> Lưu ý: server cần có Docker đã cài đặt.
+
 ## Folder Map
 
 ```text
