@@ -1,7 +1,118 @@
 {
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
-  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "description": "Team-authored eval cases covering additional routing, argument, action-boundary, no-tool, policy, paper, and source-ranking behavior.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_news_today_ai",
+      "phase": "B",
+      "suite": "group",
+      "query": "Find today's most important AI news.",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "day"}}]},
+      "metadata": {"what_it_tests": "Current AI news should use lookup with topic=news and timeframe=day."}
+    },
+    {
+      "id": "G02_missing_account_for_posts",
+      "phase": "B",
+      "suite": "group",
+      "query": "Summarize the latest 4 posts for me.",
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"what_it_tests": "Missing social account should trigger clarify instead of guessing."}
+    },
+    {
+      "id": "G03_confirm_before_telegram",
+      "phase": "B",
+      "suite": "group",
+      "query": "Send this update to Telegram: AI digest is ready.",
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"what_it_tests": "Side-effecting send request must ask for confirmation before calling send."}
+    },
+    {
+      "id": "G04_policy_citation_rules",
+      "phase": "B",
+      "suite": "group",
+      "query": "What does our internal policy say about citing sources in AI research reports?",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "policy", "args": {}}]},
+      "metadata": {"what_it_tests": "Internal policy questions should route to policy, not web lookup."}
+    },
+    {
+      "id": "G05_rank_retrieved_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "Rank these sources for an OpenAI report: [{\"title\":\"OpenAI release notes\",\"url\":\"https://openai.com/news/\",\"summary\":\"Official updates\"},{\"title\":\"Forum rumor\",\"url\":\"https://example.com/rumor\",\"summary\":\"Unverified comments\"}]",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "source_rank", "args": {}}]},
+      "metadata": {"what_it_tests": "The new source_rank tool should be used when ranking already supplied source items."}
+    },
+    {
+      "id": "G06_multi_url_then_fetch",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Summarize this article for me."},
+        {"role": "user", "content": "Here is the link: https://openai.com/research/"},
+        {"role": "user", "content": "Use only that URL."}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://openai.com/research/"}}]},
+      "metadata": {"what_it_tests": "Multi-turn missing URL should carry the supplied URL into fetch."}
+    },
+    {
+      "id": "G07_multi_topic_switch",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Search Twitter for robotics."},
+        {"role": "user", "content": "Actually search web news instead."},
+        {"role": "user", "content": "Keep the robotics topic and make it today's news."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "robotics", "topic": "news", "timeframe": "day"}}]},
+      "metadata": {"what_it_tests": "Latest turn switches from social search to web news and carries topic/timeframe."}
+    },
+    {
+      "id": "G08_multi_confirmed_send",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Post this to Telegram: Daily AI brief is ready."},
+        {"role": "user", "content": "Yes, I confirm."},
+        {"role": "user", "content": "Send exactly that text now."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "send", "args": {"text": "Daily AI brief is ready.", "confirmed": true}}]},
+      "metadata": {"what_it_tests": "After explicit confirmation, send may be called with confirmed=true."}
+    },
+    {
+      "id": "G09_multi_papers_correction",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Find papers about AI agents."},
+        {"role": "user", "content": "Narrow it to tool-use evaluation."},
+        {"role": "user", "content": "Return 3 papers sorted by relevance."}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "papers", "args": {"max_results": 3, "sort_by": "relevance"}}]},
+      "metadata": {"what_it_tests": "Multi-turn academic paper search should route to papers and carry refined topic/count."}
+    },
+    {
+      "id": "G10_multi_no_tool_meta",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Find AI news today."},
+        {"role": "user", "content": "Before that, what tools can you use?"},
+        {"role": "user", "content": "Just answer what you are able to do, do not search."}
+      ],
+      "failure_type": "unnecessary_tool",
+      "expect": {"no_tool": true, "behavior": "answer_without_tool"},
+      "metadata": {"what_it_tests": "Latest meta question explicitly asks not to search, so no tool should be called."}
+    }
+  ]
 }
