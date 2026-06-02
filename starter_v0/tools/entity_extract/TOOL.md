@@ -11,3 +11,25 @@ Arguments:
 
 Behavior:
 - Sử dụng heuristic: nhóm các từ viết hoa liên tiếp làm một thực thể, đếm tần suất, trả về top_k.
+
+Examples:
+
+- Request:
+
+	{
+		"text": "OpenAI released GPT-4. Elon Musk and Sam Altman commented.",
+		"top_k": 5
+	}
+
+- Response:
+
+	{
+		"entities": [
+			{"text": "GPT", "count": 1},
+			{"text": "Elon Musk", "count": 1},
+			{"text": "Sam Altman", "count": 1}
+		]
+	}
+
+Notes:
+- This is a heuristic extractor intended for lightweight analysis; it will not replace a full NER model for production use.

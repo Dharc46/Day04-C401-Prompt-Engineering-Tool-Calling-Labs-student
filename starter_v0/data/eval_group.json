@@ -101,5 +101,14 @@
       "expect": {"no_tool": true, "behavior": "answer_without_tool"},
       "metadata": {"skill": "multiturn_out_of_scope", "difficulty": "medium", "what_it_tests": "Yêu cầu code và ý tưởng không thuộc phạm vi research tool → không dùng tool."}
     }
+    ,
+    {
+      "id": "G12_entity_extract",
+      "phase": "B",
+      "query": "Tách thực thể chính từ đoạn sau: 'OpenAI released GPT-4 and Sam Altman spoke at the event.'",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "entity_extract", "args": {"text": "OpenAI released GPT-4 and Sam Altman spoke at the event.", "top_k": 5}}]},
+      "metadata": {"skill": "entity_extraction_usage", "difficulty": "easy", "what_it_tests": "Agent phải gọi entity_extract với text chứa nội dung để trích xuất."}
+    }
   ]
 }

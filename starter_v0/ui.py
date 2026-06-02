@@ -115,6 +115,41 @@ def main() -> None:
         "**How to use:** Set provider and model, then type a request. The UI preserves the latest conversation turns and shows tool call details for each round."
     )
 
+    st.markdown("## Hướng dẫn sử dụng công cụ (Tiếng Việt)")
+    st.markdown("Dưới đây là mô tả ngắn về những tool chính có sẵn và ví dụ prompt mẫu bằng tiếng Việt để người dùng thử.")
+
+    st.markdown("**Tool cốt lõi (tóm tắt):**")
+    st.markdown(
+        "- `clarify`: Hỏi câu hỏi làm rõ khi thiếu thông tin (ví dụ: xác nhận yes/no hoặc thông tin bổ sung).\n"
+        "- `fetch`: Lấy nội dung thô của một URL.\n"
+        "- `format`: Làm sạch/chuẩn hoá văn bản hoặc chuyển định dạng.\n"
+        "- `lookup`: Tìm kiếm trong kho tài liệu/cơ sở tri thức.\n"
+        "- `paper_text`/`papers`: Lấy hoặc tìm thông tin bài báo khoa học.\n"
+        "- `policy`: Tra cứu chính sách công ty theo chủ đề.\n"
+        "- `send`: Gửi nội dung ra kênh bên ngoài (yêu cầu xác nhận trước khi gửi).\n"
+        "- `social_search`: Tìm bài đăng mạng xã hội theo truy vấn.\n"
+        "- `timeline`: Xây timeline từ các sự kiện hoặc văn bản."
+    )
+
+    # Show new tool docs if available
+    ent_md = ROOT / "tools" / "entity_extract" / "TOOL.md"
+
+    with st.expander("entity_extract — Trích thực thể (ví dụ)", expanded=False):
+        if ent_md.exists():
+            st.markdown(ent_md.read_text(encoding="utf-8"))
+        else:
+            st.markdown("Tool `entity_extract` không có tài liệu tại đường dẫn mong đợi.")
+
+        st.markdown("**Ví dụ prompt (tiếng Việt):**")
+        st.markdown(
+            "- `Tách thực thể chính từ đoạn sau: \"OpenAI released GPT-4 and Sam Altman spoke at the event. Elon Musk attended.\" Trả về các thực thể hàng đầu và tần suất, tối đa 5.`\n"
+            "- `Hãy liệt kê 5 thực thể quan trọng nhất (tên người, tổ chức, sản phẩm) trong văn bản sau: \"...\"`\n"
+            "- `Extract top 3 entities from this paragraph: <paste text here>` (cũng chấp nhận tiếng Anh)."
+        )
+
+    st.markdown("---")
+    st.markdown("**Chạy test nhanh:** Sử dụng `pytest` trong thư mục `starter_v0` để chạy unit tests đã thêm (ví dụ cho `entity_extract`).")
+
 
 if __name__ == "__main__":
     main()
