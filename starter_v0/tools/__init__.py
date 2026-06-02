@@ -17,6 +17,11 @@ from .policy.tool import search_company_policy
 from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
+from .translate.tool import translate_text
+from .trending.tool import get_trending
+from .youtube.tool import youtube_search
+from .github_search.tool import search_github
+from .save.tool import save_to_file
 
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the
@@ -35,6 +40,11 @@ TOOL_FUNCTIONS = {
     "policy": search_company_policy,
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
+    "translate": translate_text,
+    "trending": get_trending,
+    "youtube": youtube_search,
+    "github_search": search_github,
+    "save": save_to_file,
 }
 
 

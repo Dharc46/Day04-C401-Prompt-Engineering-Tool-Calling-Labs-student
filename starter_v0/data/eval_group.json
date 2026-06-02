@@ -3,5 +3,106 @@
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_translate_routing",
+      "phase": "B",
+      "query": "Dịch đoạn này sang tiếng Việt: 'Artificial intelligence is transforming how we work and live.'",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "translate", "args": {"target_lang": "vi"}}]},
+      "metadata": {"skill": "routing_translate", "difficulty": "easy", "what_it_tests": "Yêu cầu dịch rõ ràng → translate, không phải lookup hay fetch."}
+    },
+    {
+      "id": "G02_trending_routing",
+      "phase": "B",
+      "query": "Gì đang trending trên Twitter vậy?",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "trending", "args": {}}]},
+      "metadata": {"skill": "routing_trending", "difficulty": "medium", "what_it_tests": "Hỏi trending/hot trên Twitter mà KHÔNG có từ khóa → trending, không phải social_search."}
+    },
+    {
+      "id": "G03_youtube_routing",
+      "phase": "B",
+      "query": "Tìm video YouTube về machine learning cho người mới bắt đầu",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "youtube", "args": {"query": "machine learning"}}]},
+      "metadata": {"skill": "routing_youtube", "difficulty": "easy", "what_it_tests": "Nói rõ 'video YouTube' → youtube, không phải lookup."}
+    },
+    {
+      "id": "G04_github_routing",
+      "phase": "B",
+      "query": "Tìm repo GitHub về LangChain",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "github_search", "args": {"query": "LangChain"}}]},
+      "metadata": {"skill": "routing_github", "difficulty": "easy", "what_it_tests": "Nói rõ 'repo GitHub' → github_search, không phải lookup."}
+    },
+    {
+      "id": "G05_save_vs_send",
+      "phase": "B",
+      "query": "Lưu kết quả nghiên cứu này vào file markdown giúp mình",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "save", "args": {"format": "md"}}]},
+      "metadata": {"skill": "routing_save_not_send", "difficulty": "medium", "what_it_tests": "Lưu vào file cục bộ → save, không phải send (Telegram)."}
+    },
+    {
+      "id": "G06_multiturn_papers_then_translate",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tìm paper về AI agents trên arXiv"},
+        {"role": "user", "content": "Dịch abstract sang tiếng Việt giúp mình"},
+        {"role": "user", "content": "Chỉ dịch thôi, không cần tìm thêm paper"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "translate", "args": {"target_lang": "vi"}}]},
+      "metadata": {"skill": "multiturn_switch_to_translate", "difficulty": "hard", "what_it_tests": "3 turns: ban đầu tìm paper, sau đó chuyển sang dịch. Latest turn xác nhận chỉ dịch → translate."}
+    },
+    {
+      "id": "G07_multiturn_trending_country_correction",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Gì đang hot trên Twitter?"},
+        {"role": "user", "content": "À tìm trending ở Mỹ đi"},
+        {"role": "user", "content": "Vẫn lấy trending nhé"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "trending", "args": {"country": "united states"}}]},
+      "metadata": {"skill": "multiturn_trending_correction", "difficulty": "hard", "what_it_tests": "3 turns: sửa country từ mặc định sang 'united states'. Latest turn xác nhận vẫn trending."}
+    },
+    {
+      "id": "G08_multiturn_youtube_to_github",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tìm video hướng dẫn Python trên YouTube"},
+        {"role": "user", "content": "Thôi chuyển sang tìm trên GitHub đi"},
+        {"role": "user", "content": "Giữ chủ đề Python"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "github_search", "args": {"query": "Python"}}]},
+      "metadata": {"skill": "multiturn_switch_youtube_to_github", "difficulty": "hard", "what_it_tests": "3 turns: chuyển từ youtube sang github_search, giữ chủ đề Python."}
+    },
+    {
+      "id": "G09_multiturn_github_then_save",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tìm repo GitHub về chatbot AI"},
+        {"role": "user", "content": "Lưu kết quả này vào file markdown"},
+        {"role": "user", "content": "Chỉ lưu thôi, không tìm thêm"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "save", "args": {"format": "md"}}]},
+      "metadata": {"skill": "multiturn_github_then_save", "difficulty": "hard", "what_it_tests": "3 turns: sau khi tìm GitHub, lưu kết quả. Latest turn xác nhận chỉ lưu → save."}
+    },
+    {
+      "id": "G10_multiturn_youtube_limit_sort",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tìm video YouTube về transformer"},
+        {"role": "user", "content": "Cho mình 3 video thôi"},
+        {"role": "user", "content": "Sắp xếp theo mới nhất nhé"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "youtube", "args": {"query": "transformer", "limit": 3, "sort_by": "date"}}]},
+      "metadata": {"skill": "multiturn_youtube_arg_correction", "difficulty": "hard", "what_it_tests": "3 turns: carry query 'transformer', sửa limit=3, sort_by='date' (mới nhất)."}
+    }
+  ]
 }

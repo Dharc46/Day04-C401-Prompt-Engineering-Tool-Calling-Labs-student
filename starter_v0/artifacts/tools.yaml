@@ -116,3 +116,53 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  # ---------------- New tools ----------------
+  - name: translate
+    description: "Dịch văn bản giữa các ngôn ngữ. Dùng khi người dùng yêu cầu dịch/translate nội dung. Mặc định dịch từ tiếng Anh sang tiếng Việt."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "Văn bản cần dịch"}
+        source_lang: {type: string, default: "en", description: "Ngôn ngữ nguồn (mã ISO 639-1)"}
+        target_lang: {type: string, default: "vi", description: "Ngôn ngữ đích (mã ISO 639-1)"}
+      required: [text]
+
+  - name: trending
+    description: "Lấy danh sách chủ đề đang thịnh hành (trending) trên Twitter/X. Dùng khi người dùng hỏi gì đang hot/trending/nổi bật trên mạng xã hội mà KHÔNG chỉ định từ khóa cụ thể. Khác với social_search (tìm theo từ khóa)."
+    parameters:
+      type: object
+      properties:
+        country: {type: string, default: "vietnam", description: "Quốc gia (tên tiếng Anh)"}
+        limit: {type: integer, default: 10, description: "Số lượng"}
+      required: []
+
+  - name: youtube
+    description: "Tìm video trên YouTube. Dùng khi người dùng yêu cầu tìm video hoặc nói rõ YouTube. Khác với lookup (tìm web) và social_search (tìm tweet)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Từ khóa tìm kiếm"}
+        limit: {type: integer, default: 5, description: "Số lượng video"}
+        sort_by: {type: string, enum: [relevance, date, viewCount], default: "relevance", description: "Cách sắp xếp"}
+      required: [query]
+
+  - name: github_search
+    description: "Tìm repository trên GitHub. Dùng khi người dùng hỏi về repo, mã nguồn mở, hoặc project trên GitHub. Khác với lookup (tìm web chung)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Từ khóa tìm kiếm"}
+        sort: {type: string, enum: [stars, updated, forks], default: "stars", description: "Cách sắp xếp"}
+        limit: {type: integer, default: 5, description: "Số lượng"}
+      required: [query]
+
+  - name: save
+    description: "Lưu kết quả nghiên cứu vào file cục bộ. Dùng khi người dùng yêu cầu lưu/save/export kết quả. Khác với send (gửi lên Telegram — cần xác nhận) và format (chỉ trình bày, không lưu)."
+    parameters:
+      type: object
+      properties:
+        content: {type: string, default: "", description: "Nội dung cần lưu"}
+        filename: {type: string, default: "", description: "Tên file (tự tạo nếu bỏ trống)"}
+        format: {type: string, enum: [txt, md, json], default: "md", description: "Định dạng file"}
+      required: [content]
