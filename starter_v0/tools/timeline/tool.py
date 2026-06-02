@@ -5,7 +5,7 @@ from typing import Any
 
 import requests
 
-from tools._shared import TIMEOUT, err
+from tools._shared import TIMEOUT, domain, err
 
 
 def _twitter_get(path: str, params: dict[str, Any]) -> dict[str, Any]:
@@ -43,10 +43,48 @@ def _tweets_from(data: dict[str, Any], limit: int) -> list[dict[str, Any]]:
     return items[: int(limit or 5)]
 
 
+def _web_fallback(screenname: str, limit: int, reason: str) -> dict[str, Any]:
+    key = os.getenv("TAVILY_API_KEY")
+    if not key:
+        raise RuntimeError(f"{reason}; no TAVILY_API_KEY fallback is configured")
+    response = requests.post(
+        "https://api.tavily.com/search",
+        json={
+            "query": f"site:x.com {screenname}",
+            "topic": "general",
+            "max_results": int(limit or 5),
+            "search_depth": "basic",
+        },
+        headers={"Authorization": f"Bearer {key}"},
+        timeout=TIMEOUT,
+    )
+    response.raise_for_status()
+    data = response.json()
+    items = [{
+        "title": item.get("title"),
+        "summary": item.get("content"),
+        "url": item.get("url"),
+        "source": domain(item.get("url", "")) or f"@{screenname}",
+        "score": item.get("score"),
+    } for item in data.get("results", [])]
+    return {
+        "tool": "get_user_tweets",
+        "screenname": screenname,
+        "items": items,
+        "fallback": "tavily_site_x_search",
+        "fallback_reason": reason,
+    }
+
+
 def get_user_tweets(screenname: str = "", limit: int = 5) -> dict[str, Any]:
     try:
         data = _twitter_get("/timeline.php", {"screenname": screenname})
         return {"tool": "get_user_tweets", "screenname": screenname, "items": _tweets_from(data, limit)}
+    except requests.HTTPError as exc:
+        response = exc.response
+        if response is not None and response.status_code == 403:
+            return _web_fallback(screenname, limit, response.text[:300])
+        return err("get_user_tweets", exc)
     except Exception as exc:
         return err("get_user_tweets", exc)
 

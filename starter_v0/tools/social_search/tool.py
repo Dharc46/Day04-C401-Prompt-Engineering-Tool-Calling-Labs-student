@@ -5,7 +5,7 @@ from typing import Any
 
 import requests
 
-from tools._shared import TIMEOUT, err
+from tools._shared import TIMEOUT, domain, err
 
 
 def _twitter_get(path: str, params: dict[str, Any]) -> dict[str, Any]:
@@ -43,10 +43,49 @@ def _tweets_from(data: dict[str, Any], limit: int) -> list[dict[str, Any]]:
     return items[: int(limit or 5)]
 
 
+def _web_fallback(query: str, search_type: str, limit: int, reason: str) -> dict[str, Any]:
+    key = os.getenv("TAVILY_API_KEY")
+    if not key:
+        raise RuntimeError(f"{reason}; no TAVILY_API_KEY fallback is configured")
+    response = requests.post(
+        "https://api.tavily.com/search",
+        json={
+            "query": f"site:x.com {query}",
+            "topic": "general",
+            "max_results": int(limit or 5),
+            "search_depth": "basic",
+        },
+        headers={"Authorization": f"Bearer {key}"},
+        timeout=TIMEOUT,
+    )
+    response.raise_for_status()
+    data = response.json()
+    items = [{
+        "title": item.get("title"),
+        "summary": item.get("content"),
+        "url": item.get("url"),
+        "source": domain(item.get("url", "")) or "x.com",
+        "score": item.get("score"),
+    } for item in data.get("results", [])]
+    return {
+        "tool": "search_tweets",
+        "query": query,
+        "search_type": search_type,
+        "items": items,
+        "fallback": "tavily_site_x_search",
+        "fallback_reason": reason,
+    }
+
+
 def search_tweets(query: str = "", search_type: str = "Latest", limit: int = 5) -> dict[str, Any]:
     try:
         data = _twitter_get("/search.php", {"query": query, "search_type": search_type})
         return {"tool": "search_tweets", "query": query, "search_type": search_type, "items": _tweets_from(data, limit)}
+    except requests.HTTPError as exc:
+        response = exc.response
+        if response is not None and response.status_code == 403:
+            return _web_fallback(query, search_type, limit, response.text[:300])
+        return err("search_tweets", exc)
     except Exception as exc:
         return err("search_tweets", exc)
 
