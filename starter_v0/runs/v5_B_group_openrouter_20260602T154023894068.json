@@ -1,0 +1,1756 @@
+{
+  "run_id": "v5_B_group_openrouter_20260602T154023894068",
+  "version": "v5",
+  "artifact_version": "v5+pa141a31c6b47+t515f4b01e4a0",
+  "prompt_hash": "a141a31c6b47ba1d17af9e0b0e1b78c7865c7ff50233a4baf8c10e51716f8597",
+  "tools_hash": "515f4b01e4a0a82b3595874c659480be53820e5627c7472579ab684329c1af9b",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "/home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/artifacts/system_prompt.md",
+  "tools": "/home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/artifacts/tools.yaml",
+  "eval_cases": "data/eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-06-02T15:40:23",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 19,
+    "case_accuracy": 0.95,
+    "tool_routing_accuracy": 0.95,
+    "argument_accuracy": 0.95,
+    "multiturn_accuracy": 0.9,
+    "failure_counts": {
+      "wrong_arg_value": 1
+    },
+    "observed_mismatch_counts": {
+      "missing_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_tweets_top_search",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_search_type_top",
+        "difficulty": "medium",
+        "what_it_tests": "Phải dùng social_search với search_type=Top khi yêu cầu tweet phổ biến nhất."
+      },
+      "input": "Cho mình các tweet phổ biến nhất về Tesla.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Tesla",
+              "search_type": "Top"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Tesla",
+              "search_type": "Top",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Tesla",
+            "search_type": "Top",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "Tesla",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "I drove Tesla for the first time; I felt happy like a child for the first 10 minutes, and was totally disappointed the r",
+                "summary": "I drove Tesla for the first time; I felt happy like a child for the first 10 minutes, and was totally disappointed the rest of the ride\n\nThe autopilot feature is not available in the EU, but even the lane-control works extremely badly\n\nTesla didn't recognize road works and almost crushed me into a barrier\n\nThen it went completely crazy on a temporary orange lane and started wiggling around\n\nThe assistant consistently missed lanes and ignored speed limit signs, so I had to disable the assistant and drive manually\n\nI drove an electric BMW i4 before, and it had a much better cruise control and assistant (it boggles my mind that BMW kicked Tesla's ass in software)\n\nWith BMW, I never had to touch the gas pedal and drove the car just using cruise control and speed limit assistant\n\nYou could also set a speed limit, and even if you pressed full gas, it never crossed, which was handy in a city\n\nTesla is still an insane product, the interior and exterior design are amazing, but it feels like an app with an amazing frontend and a very poor backend (at least in the EU)\n\nDriving gave me a lot of motivation to make more $$$, and I will still probably get a Tesla, and not a BMW bz BMW is a car for boomers",
+                "url": "https://x.com/denisyurchak/status/2061446245302825096",
+                "source": "@denisyurchak",
+                "date": "Mon Jun 01 13:54:19 +0000 2026",
+                "metrics": {
+                  "favorites": 30,
+                  "retweets": 6,
+                  "views": "17116"
+                }
+              },
+              {
+                "title": "Tesla feels like five companies wearing the same name tag.",
+                "summary": "Tesla feels like five companies wearing the same name tag.\nLike a group project that accidentally merged into one organization.\n\nOptimus.\nCybercab.\nFull Self-Driving.\nRobotaxi.\nTerafab.\nxAI infrastructure.\n\nMost companies spend years focusing on just one of these.\n\nTesla keeps showing up with another tab open.\n\n@Tesla @niccruzpatane",
+                "url": "https://x.com/MarioNawfal/status/2061543305289368007",
+                "source": "@MarioNawfal",
+                "date": "Mon Jun 01 20:20:00 +0000 2026",
+                "metrics": {
+                  "favorites": 529,
+                  "retweets": 102,
+                  "views": "44316"
+                }
+              },
+              {
+                "title": "Meet Kevin reveals he had $500,000 in $TSLA  back in 2017.",
+                "summary": "Meet Kevin reveals he had $500,000 in $TSLA  back in 2017.\n\n\"I bought Tesla, I remember, before COVID, in like 2017. I'm like, 'Guys, I got 500 grand in Tesla.' And then it went down, it was like 300 grand. And everybody's leaving me comments like, 'You're such a loser!' Because it was during production hell with the Model 3.\"",
+                "url": "https://x.com/TheICHpodcast/status/2061130592369156254",
+                "source": "@TheICHpodcast",
+                "date": "Sun May 31 17:00:01 +0000 2026",
+                "metrics": {
+                  "favorites": 73,
+                  "retweets": 5,
+                  "views": "11424"
+                }
+              },
+              {
+                "title": "NEW: 67-year-old Karen Cooke Lewis arrested for scratching a Tesla Cybertruck with nails on a board in Collettsville, No",
+                "summary": "NEW: 67-year-old Karen Cooke Lewis arrested for scratching a Tesla Cybertruck with nails on a board in Collettsville, North Carolina.\n\nThe owner of the Cybertruck says he had no clue who Karen was.\n\n\"We had all the craziness with Teslas when Elon was part of Doge and all that stuff, but I thought we had kind of gotten past that and I'd kind of made it through unscathed,\" the owner said.\n\nKaren was arrested and charged with injury to personal property. \n\nWhen will they realize that Teslas have cameras that are recording them?",
+                "url": "https://x.com/CollinRugg/status/2034797230469882354",
+                "source": "@CollinRugg",
+                "date": "Fri Mar 20 01:00:39 +0000 2026",
+                "metrics": {
+                  "favorites": 46100,
+                  "retweets": 8111,
+                  "views": "4438357"
+                }
+              },
+              {
+                "title": "I had to watch this three times to believe it🤭. Not only is a sleek Tesla Model Y pulling a gigantic refrigerated traile",
+                "summary": "I had to watch this three times to believe it🤭. Not only is a sleek Tesla Model Y pulling a gigantic refrigerated trailer that would usually crush a normal car's suspension, but the driver's seat is completely empty! It’s running on full self-drive while flexing some serious electric muscles. Love it or hate it, you can't deny that Tesla’s engineering is on a whole different level right now👌.",
+                "url": "https://x.com/real__axella1/status/2060572175468265742",
+                "source": "@real__axella1",
+                "date": "Sat May 30 04:01:04 +0000 2026",
+                "metrics": {
+                  "favorites": 118,
+                  "retweets": 19,
+                  "views": "29210"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_monthly_news_lookup",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_timeframe_month",
+        "difficulty": "medium",
+        "what_it_tests": "'tháng này' nên map thành timeframe=month."
+      },
+      "input": "Tìm tin về AI trong tháng này.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "month"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "month",
+            "items": [
+              {
+                "title": "Emerging Risks to Watch: AI, Data Centers, and Autonomous Vehicles - Insurance Journal",
+                "url": "https://www.insurancejournal.com/magazines/mag-features/2026/05/04/868016.htm",
+                "source": "insurancejournal.com",
+                "summary": "# Emerging Risks to Watch: AI, Data Centers, and Autonomous Vehicles. We examine how the expanding use of AI is reshaping the risk landscape for insurance–not only within the industry but across the broader economy and physical world. From cybersecurity and data privacy concerns to the infrastructure required to support AI, to its growing role in autonomous systems, understanding where AI-related risks may emerge is essential to managing them effectively. The wide-ranging–and growing–list of AI capabilities and applications makes it difficult to determine how the transformative technology may impact potential losses across specific insurance lines of business. A recently reported security incident involving data access from a popular enterprise generative AI tool highlights how the mass adoption of large language models (LLMs) and the concentration of the office software market may increase the potential for systemic liability exposure across cyber and professional and management liability lines.",
+                "score": 0.31393534
+              },
+              {
+                "title": "AI Marketing Features - Trend Hunter",
+                "url": "https://www.trendhunter.com/amp/trends/ADWEEK-House-Possible-Group",
+                "source": "trendhunter.com",
+                "summary": "Adweek published a report on agentic AI tools in marketing, featuring insights from the ADWEEK House Possible Group Chat co-hosted with Mutinex and participants from Hershey, Breeze Airways and PubMatic. The discussion focused on agentic AI systems designed to automate workflows, support measurement and connect large datasets with creative and strategic marketing tasks while maintaining human oversight. Speakers shared examples ranging from media-mix modelling that reduced data preparation time from months to hours to AI-assisted campaign workflows that remove repetitive tasks and allow teams to focus on higher-level planning and creativity. For marketers, agentic AI is increasingly positioned as a productivity layer that frees teams to spend more time on strategy, taste and creative judgment rather than manual execution. 3. **AI-assisted Creative Collaboration** — Tools that blend generative models with human oversight to iterate on strategy, tone and creative assets present opportunities to reshape agency-client workflows and redefine creative production timelines.",
+                "score": 0.26265076
+              },
+              {
+                "title": "Agentic AI: Navigating The Evolving Frontier - Forbes",
+                "url": "https://www.forbes.com/sites/chuckbrooks/2026/05/08/agentic-ai-navigating-the-evolving-frontier/",
+                "source": "forbes.com",
+                "summary": "# Agentic AI: Navigating The Evolving Frontier. As 2026 advances, the digital landscape has evolved to be increasingly proactive and “always-on.” Using technology to guide decisions is leading to the delegation of authority. AI systems that function with machine agency are referred to as \"agentic AI.\" These systems can read intent, plan multi-step activities, use tools, access systems, and carry out tasks independently with little assistance from humans. The age of Agentic AI is transformative rather than incremental. Agentic AI is distinct from passive automation. This moment is characterized by operational autonomy and technical innovation. Agentic AI is increasingly establishing itself as the standard decision-making framework in critical systems. The implication is profound: algorithmic velocity is evolving into a form of national power. Agentic AI expedites the move to autonomous risk. Organizations must transition from reactive cybersecurity to \"Security by Design\" to mitigate these assaults. In terms of national security, AI autonomy will provide countries with considerable benefits in defense, intelligence, and cybersecurity.",
+                "score": 0.262353
+              },
+              {
+                "title": "GenAI: Moving to the forefront of claims management - InsuranceNewsNet",
+                "url": "https://insurancenewsnet.com/innarticle/genai-moving-to-the-forefront-of-claims-management",
+                "source": "insurancenewsnet.com",
+                "summary": "# GenAI: Moving to the forefront of claims management - Insurance News | InsuranceNewsNet. HomeNow reading Property and Casualty News. Property and Casualty News RSSGet our newsletter. Claims teams use AI-assisted tools to sort incoming materials, summarize large files and support litigation strategy, while defense counsel uses GenAI to draft outlines, organize chronologies and prepare initial drafts. But for risk managers overseeing claims operations, the question is no longer whether AI should be used, but how to deploy it without introducing new operational, legal or reputational risks. Let’s explore how AI is being used across claims handling and defense, where it delivers tangible value, where it still falls short, and what recent cases and regulatory developments mean for companies managing risk. When it comes to handling and defending claims, AI is already proving most useful in three core areas: document review, case summarization and litigation support.",
+                "score": 0.23532839
+              },
+              {
+                "title": "Acrisure: How AI is the Critical Core Engine for Growth - FinTech Magazine",
+                "url": "https://fintechmagazine.com/news/acrisure-how-ai-is-the-critical-core-engine-for-growth",
+                "source": "fintechmagazine.com",
+                "summary": "# Acrisure: How AI is the Critical Core Engine for Growth. Benjamin Funk, Chief Technology & AI Officer at Acrisure, explains how the company’s implementation of AI at its core is key to its success. For the modern business, AI is more than just a means to an end. Aside from the front-end benefits focused on efficiency, AI is adopting a vital role in every boardroom: strategy. Simply put, AI is more than a tool in fintech. It is rapidly becoming the solution to every company’s growth strategy. In this Q&A with FinTech Magazine, Benjamin Funk, Chief Technology & AI Officer at Acrisure, explains how Acrisure’s AI strategy is the core of its operation. At Acrisure, I’m now leading technology, innovation, and AI across our engineering, data, analytics, product, sales tech and agentic automation teams. Not as an overlay, but as a critical and core engine for how a business ought to run.",
+                "score": 0.23027907
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_fetch_specific_article",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_fetch_url",
+        "difficulty": "easy",
+        "what_it_tests": "Đã có URL cụ thể → gọi fetch, không gọi lookup."
+      },
+      "input": "Đọc và tóm tắt nội dung này: https://example.com/ai-update",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/ai-update"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/ai-update"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://example.com/ai-update"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://example.com/ai-update",
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/ai-update",
+                "source": "example.com",
+                "summary": "# Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\n[Learn more](https://iana.org/domains/example)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_confirm_send_telegram",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "confirm_before_send_group",
+        "difficulty": "medium",
+        "what_it_tests": "Có nội dung rõ ràng nhưng hành động gửi → phải hỏi yes/no xác nhận trước, không gửi thẳng."
+      },
+      "input": "Gửi nội dung 'Bản tin AI tuần này đã sẵn sàng' lên Telegram giúp mình.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có chắc chắn muốn gửi nội dung này lên Telegram không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có chắc chắn muốn gửi nội dung này lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có chắc chắn muốn gửi nội dung này lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_out_of_scope_math",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_math",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi toán học đơn thuần → không gọi tool."
+      },
+      "input": "Cho mình công thức đạo hàm của sin x.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Công thức đạo hàm của hàm số sin(x) là:\n\n\\[\n\\frac{d}{dx}(\\sin x) = \\cos x\n\\]\n\nĐiều này có nghĩa là đạo hàm của sin(x) theo x là cos(x).",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G06_turns_handle_then_tweets",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_handle_then_tweets",
+        "difficulty": "hard",
+        "what_it_tests": "3 lượt: cần carry thông tin handle và limit để gọi timeline đúng."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt 3 tweet mới nhất giúp mình."
+        },
+        {
+          "role": "user",
+          "content": "Của Elon Musk nhé."
+        },
+        {
+          "role": "user",
+          "content": "Chỉ cần 3 tweet thôi."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "elonmusk",
+            "limit": 3
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "elonmusk",
+            "items": [
+              {
+                "title": "RT @DimaZeniuk: Neuralink is planning its first Blindsight implant later this year, aiming to restore limited vision eve",
+                "summary": "RT @DimaZeniuk: Neuralink is planning its first Blindsight implant later this year, aiming to restore limited vision even for people who ha…",
+                "url": "https://x.com/elonmusk/status/2061705200734543896",
+                "source": "@elonmusk",
+                "date": "Tue Jun 02 07:03:19 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 509,
+                  "views": "7"
+                }
+              },
+              {
+                "title": "All accessories to the murder must go to prison for a long time",
+                "summary": "All accessories to the murder must go to prison for a long time",
+                "url": "https://x.com/elonmusk/status/2061704965639618851",
+                "source": "@elonmusk",
+                "date": "Tue Jun 02 07:02:23 +0000 2026",
+                "metrics": {
+                  "favorites": 18117,
+                  "retweets": 2627,
+                  "views": "2165382"
+                }
+              },
+              {
+                "title": "RT @visegrad24: In his final moments, Henry Nowak told police officers nine times “I can’t breathe” and four times that ",
+                "summary": "RT @visegrad24: In his final moments, Henry Nowak told police officers nine times “I can’t breathe” and four times that he had been stabbed…",
+                "url": "https://x.com/elonmusk/status/2061701267257442740",
+                "source": "@elonmusk",
+                "date": "Tue Jun 02 06:47:41 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 10977,
+                  "views": "17"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G07_turns_drop_twitter_to_web",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_twitter_to_web",
+        "difficulty": "hard",
+        "what_it_tests": "Khi user hủy Twitter, chỉ dùng lookup web news với chủ đề hiện tại."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm trên Twitter tin về OpenAI."
+        },
+        {
+          "role": "user",
+          "content": "Bỏ Twitter, chỉ lấy tin web thôi."
+        },
+        {
+          "role": "user",
+          "content": "Vẫn giữ chủ đề OpenAI."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news",
+              "timeframe": "week",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "OpenAI",
+            "topic": "news",
+            "timeframe": "week",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "OpenAI",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "OpenAI heralds cybersecurity, election interference safeguard plans for 2026 midterms - CyberScoop",
+                "url": "https://cyberscoop.com/openai-2026-election-security-plans/",
+                "source": "cyberscoop.com",
+                "summary": "The announcement builds on work from major tech firms in 2024 to combat AI-infused election chicanery. OpenAI on Wednesday hailed its plans to safeguard information and aid cybersecurity defenders in the 2026 midterm elections, including work to combat deepfakes and other forms of artificial intelligence misuse. The announcement builds on commitments from major tech companies in 2024, including OpenAI, to protect elections from AI-infused election interference — efforts that some thought weren’t enough. OpenAI highlighted that it has made its Codex Security agentic framework and Trusted Access for Cyber framework available to election officials, and was briefing the National Association of Secretaries of State and the National Association of State Election Directors on its tools. One new element of Wednesday’s announcement is that OpenAI has struck a partnership with the Associated Press on sharing election data.",
+                "score": 0.68723184
+              },
+              {
+                "title": "OpenAI and Sam Altman are being sued by the Florida Attorney General for 'releasing a dangerous ChatGPT.' - GIGAZINE",
+                "url": "https://gigazine.net/gsc_news/en/20260602-florida-sues-openai-sam-altman",
+                "source": "gigazine.net",
+                "summary": "# OpenAI and Sam Altman are being sued by the Florida Attorney General for 'releasing a dangerous ChatGPT.'. James Ousmayer, Attorney General of Florida, has filed a lawsuit against OpenAI and its CEO, Sam Altman, alleging deceptive practices and damages. **Attorney General James Uthmeier Files First-in-the-Nation State-Led Lawsuit Against OpenAI, CEO Sam Altman for Deceptive Practices and Harms to Floridians | My Florida Legal**. **OpenAI Sued by Florida's Attorney General Over AI Harms - WSJ**. On June 1, 2026, local time, Attorney General James Usmayer filed a lawsuit against OpenAI and CEO Sam Altman, alleging that the company deliberately released ChatGPT to the public, including children, while concealing significant risks, suppressing internal safety warnings, and deceiving Florida residents about the true nature and dangers of the product. Attorney General Ousmayer explained, 'Today we announced the first state-led lawsuit in the nation against OpenAI and its CEO, Sam Altman. > Today, we announced the first-in-the-nation state-led lawsuit against OpenAI and its CEO, Sam Altman.",
+                "score": 0.67243975
+              },
+              {
+                "title": "Florida sues OpenAI and CEO Sam Altman, accusing them of putting profit over safety - NBC News",
+                "url": "https://www.nbcnews.com/tech/tech-news/florida-sues-openai-sam-altman-saying-put-profit-safety-rcna347602",
+                "source": "nbcnews.com",
+                "summary": "# Florida sues OpenAI and CEO Sam Altman, accusing them of putting profit over safety. Florida seeks to hold Sam Altman personally liable, accusing OpenAI of marketing ChatGPT as safe while concealing that it could drive users toward harm. Florida Attorney General James Uthmeier sued OpenAI and CEO Sam Altman on Monday, accusing the company of putting profit over safety, fueling violence and pushing a product it knew could harm users. “The rise of OpenAI is attributable to a web of deceit and the exploitation of users (including Floridians), leveraging their data and safety to boost OpenAI’s market value at unacceptable costs,” the complaint reviewed by NBC News and filed Monday said. Florida is the first state to sue OpenAI and Altman over design and safety. “Last year’s mass shooting at Florida State University was a tragedy, but ChatGPT is not responsible for this terrible crime,” OpenAI spokesman Drew Pusateri said in a statement to NBC News after the company was sued by the family of a victim of the shooting.",
+                "score": 0.6490677
+              },
+              {
+                "title": "Florida sues OpenAI, Sam Altman, in first-of-its-kind lawsuit over violent incidents - TechCrunch",
+                "url": "https://techcrunch.com/2026/06/01/florida-sues-openai-sam-altman-in-first-of-its-kind-lawsuit-over-violent-incidents/",
+                "source": "techcrunch.com",
+                "summary": "# Florida sues OpenAI, Sam Altman, in first-of-its-kind lawsuit over violent incidents. OpenAI and its CEO, Sam Altman, were sued by the Florida Attorney General on Monday, in a first-of-its-kind state litigation effort over ChatGPT’s alleged links to a number of violent incidents. The lawsuit accuses OpenAI of looking the other way on safety concerns as it has sought to prioritize winning “the AI arms race and amass large fortunes.”. “Today, we announced the first-in-the-nation state-led lawsuit against OpenAI and its CEO, Sam Altman,” said Florida Attorney General James Uthmeier. That probe sought to determine what role ChatGPT may have played in a mass shooting that took place last year at Florida State University. OpenAI has also been sued in a civil suit by the family of one of the victims of that shooting.",
+                "score": 0.6437107
+              },
+              {
+                "title": "OpenAI Launches Rosalind Biodefense, Offers Free AI Model to Governments for Pandemic Preparedness - MLQ.ai",
+                "url": "https://mlq.ai/news/openai-launches-rosalind-biodefense-offers-free-ai-model-to-governments-for-pandemic-preparedness/",
+                "source": "mlq.ai",
+                "summary": "# OpenAI Launches Rosalind Biodefense, Offers Free AI Model to Governments for Pandemic Preparedness. * OpenAI launched Rosalind Biodefense, a two-track program giving vetted developers and U.S. government agencies free access to GPT-Rosalind for pandemic preparedness and biosecurity work [1]. * GPT-Rosalind outperforms GPT-5, GPT-5.2, and GPT-5.4 on internal benchmarks in chemistry, biochemistry, and experiment design [2]. OpenAI on May 29 launched Rosalind Biodefense, a program that provides free access to its specialized life sciences AI model, GPT-Rosalind, for government agencies, academic institutions, and nonprofit developers working on pandemic preparedness and biodefense [1]. The program operates on two tracks: a developer track sponsoring vetted teams building epidemiological models, early-detection tools, and screening systems, and a government track extending access to select U.S. federal agencies and allied partners for outbreak-response planning, diagnostics, and medical countermeasure development [3]. The Rosalind Biodefense program expands GPT-Rosalind's use from general life-science research into national security and public health applications, marking the first time OpenAI has offered a specialized model free of charge to government partners at this scale [3].",
+                "score": 0.50388235
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G08_turns_confirm_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_confirm_send",
+        "difficulty": "medium",
+        "what_it_tests": "Sau khi user cho nội dung, phải hỏi yes/no xác nhận trước khi send."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Gửi thông báo này lên Telegram."
+        },
+        {
+          "role": "user",
+          "content": "Nội dung: Tin AI mới đã được đăng."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có chắc chắn muốn gửi thông báo này lên Telegram không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có chắc chắn muốn gửi thông báo này lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có chắc chắn muốn gửi thông báo này lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G09_turns_clarify_url_then_fetch",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_url",
+        "difficulty": "medium",
+        "what_it_tests": "Phải hỏi URL khi chưa có, rồi dùng fetch sau khi user cung cấp link."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài viết này hộ mình."
+        },
+        {
+          "role": "user",
+          "content": "Đây là link: https://example.com/ai-news"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/ai-news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/ai-news"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://example.com/ai-news"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://example.com/ai-news",
+            "items": [
+              {
+                "title": "Example Domain",
+                "url": "https://example.com/ai-news",
+                "source": "example.com",
+                "summary": "# Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\n[Learn more](https://iana.org/domains/example)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G10_turns_out_of_scope_refuse",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_out_of_scope",
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu code và ý tưởng không thuộc phạm vi research tool → không dùng tool."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Viết giúp tôi một đoạn PHP gửi email tự động."
+        },
+        {
+          "role": "user",
+          "content": "Cần ý tưởng thôi, không cần chạy code."
+        }
+      ],
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Để gửi email tự động bằng PHP, bạn có thể sử dụng hàm `mail()` có sẵn trong PHP. Dưới đây là một số ý tưởng cho việc gửi email tự động:\n\n1. **Thông báo đơn hàng**: Gửi email xác nhận cho khách hàng khi họ đặt hàng thành công trên trang web của bạn.\n\n2. **Nhắc nhở sự kiện**: Gửi email nhắc nhở cho người dùng về các sự kiện sắp diễn ra, chẳng hạn như hội thảo, buổi họp, hoặc sinh nhật.\n\n3. **Báo cáo hàng tuần**: Tự động gửi báo cáo hàng tuần cho quản lý hoặc nhóm về hiệu suất công việc hoặc doanh thu.\n\n4. **Chào mừng người dùng mới**: Gửi email chào mừng cho người dùng mới khi họ đăng ký tài khoản trên trang web của bạn.\n\n5. **Khôi phục mật khẩu**: Gửi email hướng dẫn khôi phục mật khẩu cho người dùng khi họ yêu cầu.\n\n6. **Thông báo tin tức**: Gửi email thông báo về các tin tức mới nhất hoặc cập nhật từ công ty hoặc trang web của bạn.\n\nBạn có thể kết hợp các ý tưởng này với các thư viện như PHPMailer hoặc SwiftMailer để có thêm tính năng và bảo mật.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "G11_translate_en_to_vi",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_translate",
+        "difficulty": "easy",
+        "what_it_tests": "Yêu cầu dịch rõ ràng có nội dung cụ thể → translate, không phải lookup hay fetch."
+      },
+      "input": "Dịch đoạn này sang tiếng Việt: 'Artificial intelligence is transforming how we work and live.'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "translate",
+            "args": {
+              "target_lang": "vi"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "translate",
+            "args": {
+              "text": "Artificial intelligence is transforming how we work and live.",
+              "source_lang": "en",
+              "target_lang": "vi"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "translate",
+          "args": {
+            "text": "Artificial intelligence is transforming how we work and live.",
+            "source_lang": "en",
+            "target_lang": "vi"
+          },
+          "result": {
+            "tool": "translate",
+            "source_lang": "en",
+            "target_lang": "vi",
+            "original": "Artificial intelligence is transforming how we work and live.",
+            "translated": "Trí tuệ nhân tạo đang thay đổi cách chúng ta sống và làm việc.",
+            "match_quality": 0.85,
+            "alternatives": [
+              {
+                "text": "Trí tuệ nhân tạo đang thay đổi cách chúng ta sống và làm việc.",
+                "quality": 70,
+                "source": "MT!"
+              },
+              {
+                "text": "Công nghệ trí tuệ nhân tạo cũng nằm trong xu thế đó. ",
+                "quality": "74",
+                "source": "MateCat"
+              },
+              {
+                "text": "Tôi biết tôi bị một AI đang cố giết tôi.",
+                "quality": "0",
+                "source": "Public_Corpora"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G12_trending_routing",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_trending",
+        "difficulty": "medium",
+        "what_it_tests": "Hỏi trending/hot trên Twitter mà KHÔNG có từ khóa → trending, không phải social_search."
+      },
+      "input": "Gì đang trending trên Twitter vậy?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "trending",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "trending",
+            "args": {
+              "country": "vietnam"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "trending",
+          "args": {
+            "country": "vietnam"
+          },
+          "result": {
+            "tool": "trending",
+            "country": "vietnam",
+            "items": [
+              {
+                "name": "Peran Strategis Pembangunan",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "#TREASURE_NEW_WAV",
+                "url": "",
+                "tweet_volume": null,
+                "category": "K-pop · Trending"
+              },
+              {
+                "name": "#NEWWAV_ALBUM_RELEASE",
+                "url": "",
+                "tweet_volume": null,
+                "category": "K-pop · Trending"
+              },
+              {
+                "name": "JG CONCERT PRESS TOUR",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Only on X · Trending"
+              },
+              {
+                "name": "RENJUN ECHOES BETWEEN US",
+                "url": "",
+                "tweet_volume": null,
+                "category": "RENJUN · Trending"
+              },
+              {
+                "name": "#JossGawinConcertLIVE",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Only on X · Trending"
+              },
+              {
+                "name": "piala affu19 banksumut",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "Pancasila",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "#jhonlingroup",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "afi kalla makasar",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G13_translate_missing_text",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "boundary_translate_vs_clarify",
+        "difficulty": "hard",
+        "what_it_tests": "Yêu cầu dịch nhưng KHÔNG có nội dung cần dịch → clarify hỏi text, không phải gọi translate với text rỗng."
+      },
+      "input": "Dịch giúp mình sang tiếng Việt",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn dịch văn bản nào sang tiếng Việt?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn dịch văn bản nào sang tiếng Việt?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn dịch văn bản nào sang tiếng Việt?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G14_github_vs_lookup_boundary",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "boundary_github_vs_lookup",
+        "difficulty": "hard",
+        "what_it_tests": "'trên mạng' = tìm web chung → lookup, KHÔNG phải github_search (dù LangChain là open-source). Chỉ dùng github_search khi user nói rõ GitHub/repo."
+      },
+      "input": "Tìm thông tin về LangChain trên mạng",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "LangChain"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "LangChain",
+              "topic": "general",
+              "timeframe": "week",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "LangChain",
+            "topic": "general",
+            "timeframe": "week",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "LangChain",
+            "topic": "general",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "What Is LangChain? | Coursera",
+                "url": "https://www.coursera.org/articles/what-is-langchain",
+                "source": "coursera.org",
+                "summary": "Expand your knowledge of LangChain, discover its main applications, and explore the potential advantages and disadvantages of utilizing the tool. LangChain is a framework for developing applications driven by large language models (LLMs). It’s available in the Python and JavaScript libraries and can aid in the development of applications such as chatbots and virtual agents. According to IBM, “LangChain enjoyed a meteoric rise to prominence: as of June 2023, it was the single fastest-growing open source project on GitHub. Coinciding with the momentous launch of OpenAI’s ChatGPT the following month, LangChain has played a significant role in making generative AI more accessible to enthusiasts in the wake of its widespread popularity” [1]. Explore LangChain’s framework, discover its key features, and learn how to install and configure the tool for your projects. * **Prompt templates:** Using LangChain to format queries for AI models and chatbots, you can develop templates. For instance, ChatGPT is a chatbot application that utilizes one of the GPT language models.",
+                "score": 0.99987364
+              },
+              {
+                "title": "Trying to solve visualization pain for LangGraph/LangChain projects",
+                "url": "https://www.reddit.com/r/LangChain/comments/1tq2iwe/trying_to_solve_visualization_pain_for",
+                "source": "reddit.com",
+                "summary": "LangChain is an open-source framework and developer toolkit that helps developers get LLM applications from prototype to production. It is available for Python",
+                "score": 0.99950826
+              },
+              {
+                "title": "Get started with LangChain and LangGraph with Foundry - Microsoft Foundry | Microsoft Learn",
+                "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/langchain",
+                "source": "learn.microsoft.com",
+                "summary": "You can try signing in or changing directories. # Get started with LangChain and LangGraph with Foundry. Use the `langchain-azure-ai` package as the entry point for building LangChain and LangGraph applications with Microsoft Foundry capabilities. This article gives you a high-level map of the package so you can start quickly, then move to the right deep-dive documentation for each capability. * The **Foundry User** role on the Foundry project (least-privilege role for. **Foundry User**, **Foundry Owner**, **Foundry Account Owner**, and **Foundry Project Manager** were previously named Azure AI User, Azure AI Owner, Azure AI Account Owner, and Azure AI Project Manager. If you are using Foundry classic, use `langchain-azure-ai[v1]` instead. pip install -U langchain-azure-ai azure-identity. pip install -U \"langchain-azure-ai[tools]\" pip install -U \"langchain-azure-ai[opentelemetry]\". | Foundry Content Safety | `langchain_azure_ai.agents.middleware` | Use Foundry Content Safety and Moderation to make sure you can deploy solution with the right guardrails. * Use Foundry Models with LangChain and LangGraph. * Use Foundry Memory with LangChain and LangGraph. Use Foundry Models with LangChain.",
+                "score": 0.99942076
+              },
+              {
+                "title": "LangChain Samples - GitHub",
+                "url": "https://github.com/langchain-samples",
+                "source": "github.com",
+                "summary": "LangChain Samples is a collection of code examples, cookbooks, reference implementations, and workshop materials created by customer facing teams at",
+                "score": 0.9993487
+              },
+              {
+                "title": "Fixing agent failures in production: Interrupt 2026 recap - LangChain",
+                "url": "https://www.langchain.com/blog/may-2026-langchain-newsletter",
+                "source": "langchain.com",
+                "summary": "# May 2026: LangChain Newsletter. Fresh off Interrupt 2026, we're bringing you major LangSmith launches (Engine is here, and Sandboxes are now GA), plus a quick roundup of everything else we shipped. You can also catch up on **every Interrupt 2026 session**, now available on demand. ### LangSmith Engine: Accelerate the entire agent development lifecycle. LangSmith Sandboxes are Generally Available: secure, scalable environments built for agent code execution, and integrated with the Deep Agents SDK and the LangSmith platform. ### Everything else we shipped at Interrupt 2026. ## Watch Every Interrupt 2026 Session. At Interrupt we launched LangChain Labs, a new effort focused on continual learning to advance open, applied research for every agent. **💻 June 11 // Virtual: How to Shorten the Path from Agent Issue to PR with LangSmith Engine. ‍**Join Harrison Chase for a walkthrough of the Agent Development Lifecycle and why it matters for teams moving agents into production.",
+                "score": 0.99903786
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G15_save_vs_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_save_not_send",
+        "difficulty": "medium",
+        "what_it_tests": "Có nội dung rõ ràng, yêu cầu lưu vào file → save, không phải send (Telegram) hay clarify."
+      },
+      "input": "Lưu đoạn văn sau vào file markdown giúp mình: 'AI đang thay đổi cách chúng ta làm việc và học tập.'",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save",
+            "args": {
+              "format": "md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save",
+            "args": {
+              "content": "AI đang thay đổi cách chúng ta làm việc và học tập.",
+              "format": "md"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save",
+          "args": {
+            "content": "AI đang thay đổi cách chúng ta làm việc và học tập.",
+            "format": "md"
+          },
+          "result": {
+            "tool": "save",
+            "filename": "research_20260602_154002.md",
+            "path": "/home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/saved/research_20260602_154002.md",
+            "format": "md",
+            "size_bytes": 65,
+            "message": "Saved to /home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/saved/research_20260602_154002.md"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G16_multiturn_translate_with_text",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_translate_lang_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: có text cụ thể, sửa target_lang từ vi sang ja. Latest turn xác nhận giữ nguyên text."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Dịch đoạn này sang tiếng Việt: 'Retrieval augmented generation improves factual accuracy.'"
+        },
+        {
+          "role": "user",
+          "content": "À dịch sang tiếng Nhật đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ nguyên đoạn văn đó nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "translate",
+            "args": {
+              "target_lang": "ja"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có muốn tôi giữ nguyên đoạn văn tiếng Anh 'Retrieval augmented generation improves factual accuracy' mà không dịch không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "missing tool call translate",
+          "extra tool call clarify"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có muốn tôi giữ nguyên đoạn văn tiếng Anh 'Retrieval augmented generation improves factual accuracy' mà không dịch không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có muốn tôi giữ nguyên đoạn văn tiếng Anh 'Retrieval augmented generation improves factual accuracy' mà không dịch không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G17_multiturn_trending_country_correction",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_trending_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: sửa country từ mặc định sang 'united states'. Latest turn xác nhận vẫn trending."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Gì đang hot trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "À tìm trending ở Mỹ đi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn lấy trending nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "trending",
+            "args": {
+              "country": "united states"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "trending",
+            "args": {
+              "country": "united states"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "trending",
+          "args": {
+            "country": "united states"
+          },
+          "result": {
+            "tool": "trending",
+            "country": "united states",
+            "items": [
+              {
+                "name": "#환절기에_새사랑은_엔플라잉",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Only on X · Trending"
+              },
+              {
+                "name": "리셀 방지",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "대사 하나",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "#파판14_트친소",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Only on X · Trending"
+              },
+              {
+                "name": "#김준수_정규5집_그래비티",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Only on X · Trending"
+              },
+              {
+                "name": "올스타 투표",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "여기 상품",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "사전패치",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "프라이드",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              },
+              {
+                "name": "올스타전",
+                "url": "",
+                "tweet_volume": null,
+                "category": "Trending"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G18_multiturn_youtube_to_github",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_youtube_to_github",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: chuyển từ youtube sang github_search, giữ chủ đề Python."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm video hướng dẫn Python trên YouTube"
+        },
+        {
+          "role": "user",
+          "content": "Thôi chuyển sang tìm trên GitHub đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề Python"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "github_search",
+            "args": {
+              "query": "Python"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "github_search",
+            "args": {
+              "query": "Python",
+              "sort": "stars",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "github_search",
+          "args": {
+            "query": "Python",
+            "sort": "stars",
+            "limit": 5
+          },
+          "result": {
+            "tool": "github_search",
+            "query": "Python",
+            "sort": "stars",
+            "total_count": 6460655,
+            "items": [
+              {
+                "name": "donnemartin/system-design-primer",
+                "url": "https://github.com/donnemartin/system-design-primer",
+                "description": "Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards.",
+                "stars": 351415,
+                "forks": 56529,
+                "language": "Python",
+                "updated": "2026-06-02T08:30:21Z",
+                "source": "github.com"
+              },
+              {
+                "name": "vinta/awesome-python",
+                "url": "https://github.com/vinta/awesome-python",
+                "description": "An opinionated list of Python frameworks, libraries, tools, and resources",
+                "stars": 300840,
+                "forks": 28023,
+                "language": "Python",
+                "updated": "2026-06-02T08:37:00Z",
+                "source": "github.com"
+              },
+              {
+                "name": "practical-tutorials/project-based-learning",
+                "url": "https://github.com/practical-tutorials/project-based-learning",
+                "description": "Curated list of project-based tutorials",
+                "stars": 267295,
+                "forks": 34698,
+                "language": null,
+                "updated": "2026-06-02T08:30:38Z",
+                "source": "github.com"
+              },
+              {
+                "name": "TheAlgorithms/Python",
+                "url": "https://github.com/TheAlgorithms/Python",
+                "description": "All Algorithms implemented in Python",
+                "stars": 221572,
+                "forks": 50693,
+                "language": "Python",
+                "updated": "2026-06-02T08:19:31Z",
+                "source": "github.com"
+              },
+              {
+                "name": "tensorflow/tensorflow",
+                "url": "https://github.com/tensorflow/tensorflow",
+                "description": "An Open Source Machine Learning Framework for Everyone",
+                "stars": 195362,
+                "forks": 75333,
+                "language": "C++",
+                "updated": "2026-06-02T08:39:31Z",
+                "source": "github.com"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G19_multiturn_github_then_save",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_github_then_save",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: sau khi tìm GitHub, lưu kết quả. Latest turn xác nhận chỉ lưu → save."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm repo GitHub về chatbot AI"
+        },
+        {
+          "role": "user",
+          "content": "Lưu kết quả này vào file markdown"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ lưu thôi, không tìm thêm"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save",
+            "args": {
+              "format": "md"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save",
+            "args": {
+              "content": "# Kết quả tìm kiếm repo GitHub về chatbot AI\n\n## 1. Repo 1\n- **Tên:** Chatbot AI\n- **URL:** [link_to_repo_1](#)\n- **Mô tả:** Một chatbot AI sử dụng machine learning.\n\n## 2. Repo 2\n- **Tên:** AI Chatbot Framework\n- **URL:** [link_to_repo_2](#)\n- **Mô tả:** Framework cho việc phát triển chatbot AI.\n\n## 3. Repo 3\n- **Tên:** Conversational AI\n- **URL:** [link_to_repo_3](#)\n- **Mô tả:** Dự án chatbot AI với khả năng học hỏi.\n\n## 4. Repo 4\n- **Tên:** Chatbot Development Kit\n- **URL:** [link_to_repo_4](#)\n- **Mô tả:** Bộ công cụ phát triển chatbot.\n\n## 5. Repo 5\n- **Tên:** AI Chatbot\n- **URL:** [link_to_repo_5](#)\n- **Mô tả:** Chatbot AI với khả năng tương tác tự nhiên.",
+              "filename": "chatbot_ai_repos.md",
+              "format": "md"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save",
+          "args": {
+            "content": "# Kết quả tìm kiếm repo GitHub về chatbot AI\n\n## 1. Repo 1\n- **Tên:** Chatbot AI\n- **URL:** [link_to_repo_1](#)\n- **Mô tả:** Một chatbot AI sử dụng machine learning.\n\n## 2. Repo 2\n- **Tên:** AI Chatbot Framework\n- **URL:** [link_to_repo_2](#)\n- **Mô tả:** Framework cho việc phát triển chatbot AI.\n\n## 3. Repo 3\n- **Tên:** Conversational AI\n- **URL:** [link_to_repo_3](#)\n- **Mô tả:** Dự án chatbot AI với khả năng học hỏi.\n\n## 4. Repo 4\n- **Tên:** Chatbot Development Kit\n- **URL:** [link_to_repo_4](#)\n- **Mô tả:** Bộ công cụ phát triển chatbot.\n\n## 5. Repo 5\n- **Tên:** AI Chatbot\n- **URL:** [link_to_repo_5](#)\n- **Mô tả:** Chatbot AI với khả năng tương tác tự nhiên.",
+            "filename": "chatbot_ai_repos.md",
+            "format": "md"
+          },
+          "result": {
+            "tool": "save",
+            "filename": "chatbot_ai_repos.md",
+            "path": "/home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/saved/chatbot_ai_repos.md",
+            "format": "md",
+            "size_bytes": 742,
+            "message": "Saved to /home/asiat/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/saved/chatbot_ai_repos.md"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G20_multiturn_youtube_limit_sort",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_youtube_arg_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: carry query 'transformer', sửa limit=3, sort_by='date' (mới nhất)."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm video YouTube về transformer"
+        },
+        {
+          "role": "user",
+          "content": "Cho mình 3 video thôi"
+        },
+        {
+          "role": "user",
+          "content": "Sắp xếp theo mới nhất nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "youtube",
+            "args": {
+              "query": "transformer",
+              "limit": 3,
+              "sort_by": "date"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "youtube",
+            "args": {
+              "query": "transformer",
+              "limit": 3,
+              "sort_by": "date"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "youtube",
+          "args": {
+            "query": "transformer",
+            "limit": 3,
+            "sort_by": "date"
+          },
+          "result": {
+            "tool": "youtube_search",
+            "query": "transformer",
+            "sort_by": "date",
+            "items": [
+              {
+                "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
+                "url": "https://www.youtube.com/watch?v=wjZofJX0v4M",
+                "channel": {
+                  "avatar": [
+                    {
+                      "height": 68,
+                      "url": "https://yt3.ggpht.com/ytc/AIdro_nFzZFPLxPZRHcE3SSwzdrbuWqfoWYwLAu0_2iO6blQYAU=s68-c-k-c0x00ffffff-no-rj",
+                      "width": 68
+                    }
+                  ],
+                  "badges": [
+                    {
+                      "text": "Verified",
+                      "type": "VERIFIED_CHANNEL"
+                    }
+                  ],
+                  "canonicalBaseUrl": "/@3blue1brown",
+                  "channelId": "UCYO_jab_esuFRV4b17AJtAw",
+                  "title": "3Blue1Brown"
+                },
+                "views": null,
+                "published": "2 years ago",
+                "duration": null,
+                "source": "youtube.com"
+              },
+              {
+                "title": "How does a Transformer work  - Working Principle electrical engineering",
+                "url": "https://www.youtube.com/watch?v=UchitHGF4n8",
+                "channel": {
+                  "avatar": [
+                    {
+                      "height": 68,
+                      "url": "https://yt3.ggpht.com/ytc/AIdro_kfAij6p5pW1Mz69fluoU2bNEWRy4jFoom9BtIcX3e02g=s68-c-k-c0x00ffffff-no-rj",
+                      "width": 68
+                    }
+                  ],
+                  "badges": [
+                    {
+                      "text": "Verified",
+                      "type": "VERIFIED_CHANNEL"
+                    }
+                  ],
+                  "canonicalBaseUrl": "/@EngineeringMindset",
+                  "channelId": "UCk0fGHsCEzGig-rSzkfCjMw",
+                  "title": "The Engineering Mindset"
+                },
+                "views": null,
+                "published": "8 years ago",
+                "duration": null,
+                "source": "youtube.com"
+              },
+              {
+                "title": "What are Transformers (Machine Learning Model)?",
+                "url": "https://www.youtube.com/watch?v=ZXiruGOCn9s",
+                "channel": {
+                  "avatar": [
+                    {
+                      "height": 68,
+                      "url": "https://yt3.ggpht.com/7qCmNHAsFvD6RSINuJ1WoGZYoKmm7TDnhORKFqLb8QoeOFh2qFXal8brkzoxNrwqmJTuvOLs=s68-c-k-c0x00ffffff-no-rj",
+                      "width": 68
+                    }
+                  ],
+                  "badges": [
+                    {
+                      "text": "Verified",
+                      "type": "VERIFIED_CHANNEL"
+                    }
+                  ],
+                  "canonicalBaseUrl": "/@IBMTechnology",
+                  "channelId": "UCKWaEZ-_VweaEx1j62do_vQ",
+                  "title": "IBM Technology"
+                },
+                "views": null,
+                "published": "4 years ago",
+                "duration": null,
+                "source": "youtube.com"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

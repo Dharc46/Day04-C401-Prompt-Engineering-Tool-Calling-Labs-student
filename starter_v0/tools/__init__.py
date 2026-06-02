@@ -18,6 +18,11 @@ from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
 from .entity_extract.tool import entity_extract
+from .translate.tool import translate_text
+from .trending.tool import get_trending
+from .youtube.tool import youtube_search
+from .github_search.tool import search_github
+from .save.tool import save_to_file
 
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the
@@ -37,6 +42,11 @@ TOOL_FUNCTIONS = {
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
     "entity_extract": entity_extract,
+    "translate": translate_text,
+    "trending": get_trending,
+    "youtube": youtube_search,
+    "github_search": search_github,
+    "save": save_to_file,
 }
 
 
