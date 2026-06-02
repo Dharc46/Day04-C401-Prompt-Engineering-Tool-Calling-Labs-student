@@ -3,5 +3,103 @@
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_tweets_top_search",
+      "phase": "B",
+      "query": "Cho mình các tweet phổ biến nhất về Tesla.",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "social_search", "args": {"query": "Tesla", "search_type": "Top"}}]},
+      "metadata": {"skill": "arg_search_type_top", "difficulty": "medium", "what_it_tests": "Phải dùng social_search với search_type=Top khi yêu cầu tweet phổ biến nhất."}
+    },
+    {
+      "id": "G02_monthly_news_lookup",
+      "phase": "B",
+      "query": "Tìm tin về AI trong tháng này.",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "month"}}]},
+      "metadata": {"skill": "arg_timeframe_month", "difficulty": "medium", "what_it_tests": "'tháng này' nên map thành timeframe=month."}
+    },
+    {
+      "id": "G03_fetch_specific_article",
+      "phase": "B",
+      "query": "Đọc và tóm tắt nội dung này: https://example.com/ai-update",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://example.com/ai-update"}}]},
+      "metadata": {"skill": "routing_fetch_url", "difficulty": "easy", "what_it_tests": "Đã có URL cụ thể → gọi fetch, không gọi lookup."}
+    },
+    {
+      "id": "G04_confirm_send_telegram",
+      "phase": "B",
+      "query": "Đăng tin này lên Telegram giúp mình.",
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"skill": "confirm_before_send_group", "difficulty": "medium", "what_it_tests": "Hành động gửi trong một câu đơn → phải hỏi yes/no xác nhận trước."}
+    },
+    {
+      "id": "G05_out_of_scope_math",
+      "phase": "B",
+      "query": "Cho mình công thức đạo hàm của sin x.",
+      "failure_type": "out_of_scope",
+      "expect": {"no_tool": true, "behavior": "answer_without_tool"},
+      "metadata": {"skill": "out_of_scope_math", "difficulty": "easy", "what_it_tests": "Câu hỏi toán học đơn thuần → không gọi tool."}
+    },
+    {
+      "id": "G06_turns_handle_then_tweets",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tóm tắt 3 tweet mới nhất giúp mình."},
+        {"role": "user", "content": "Của Elon Musk nhé."},
+        {"role": "user", "content": "Chỉ cần 3 tweet thôi."}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "elonmusk", "limit": 3}}]},
+      "metadata": {"skill": "multiturn_handle_then_tweets", "difficulty": "hard", "what_it_tests": "3 lượt: cần carry thông tin handle và limit để gọi timeline đúng."}
+    },
+    {
+      "id": "G07_turns_drop_twitter_to_web",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tìm trên Twitter tin về OpenAI."},
+        {"role": "user", "content": "Bỏ Twitter, chỉ lấy tin web thôi."},
+        {"role": "user", "content": "Vẫn giữ chủ đề OpenAI."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI", "topic": "news"}}]},
+      "metadata": {"skill": "multiturn_switch_twitter_to_web", "difficulty": "hard", "what_it_tests": "Khi user hủy Twitter, chỉ dùng lookup web news với chủ đề hiện tại."}
+    },
+    {
+      "id": "G08_turns_confirm_send",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Gửi thông báo này lên Telegram."},
+        {"role": "user", "content": "Nội dung: Tin AI mới đã được đăng."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"skill": "multiturn_confirm_send", "difficulty": "medium", "what_it_tests": "Sau khi user cho nội dung, phải hỏi yes/no xác nhận trước khi send."}
+    },
+    {
+      "id": "G09_turns_clarify_url_then_fetch",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tóm tắt bài viết này hộ mình."},
+        {"role": "user", "content": "Đây là link: https://example.com/ai-news"}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://example.com/ai-news"}}]},
+      "metadata": {"skill": "multiturn_clarify_url", "difficulty": "medium", "what_it_tests": "Phải hỏi URL khi chưa có, rồi dùng fetch sau khi user cung cấp link."}
+    },
+    {
+      "id": "G10_turns_out_of_scope_refuse",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Viết giúp tôi một đoạn PHP gửi email tự động."},
+        {"role": "user", "content": "Cần ý tưởng thôi, không cần chạy code."}
+      ],
+      "failure_type": "out_of_scope",
+      "expect": {"no_tool": true, "behavior": "answer_without_tool"},
+      "metadata": {"skill": "multiturn_out_of_scope", "difficulty": "medium", "what_it_tests": "Yêu cầu code và ý tưởng không thuộc phạm vi research tool → không dùng tool."}
+    }
+  ]
 }

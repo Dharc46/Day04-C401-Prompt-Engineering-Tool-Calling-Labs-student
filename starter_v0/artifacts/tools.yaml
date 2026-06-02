@@ -16,7 +16,7 @@ tools:
         question: {type: string, default: "", description: "Câu hỏi"}
         response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời"}
         options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
-      required: [question]
+      required: [response_type]
 
   - name: timeline
     description: "Lấy các bài đăng gần đây."
@@ -38,7 +38,7 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet."
+    description: "Tra cứu thông tin trên internet. Use topic=news and timeframe=day for current news, and keep query just the subject term (do not append 'news')."
     parameters:
       type: object
       properties:
@@ -79,7 +79,7 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Gửi một đoạn văn bản đi. Only actually send when confirmed=true after an explicit yes/no confirmation." 
     parameters:
       type: object
       properties:
