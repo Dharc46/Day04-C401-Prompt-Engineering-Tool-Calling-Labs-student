@@ -34,6 +34,14 @@ Bonus:
 
 **Điểm thưởng (bonus point):** team nào làm **CẢ HAI** — dựng được UI **và** tự viết thêm hơn 3 tool mới (ngoài các tool có sẵn, kèm `TOOL.md` + đăng ký trong `tools/__init__.py` + `tools.yaml`) — sẽ được cộng điểm thưởng.
 
+## UI runner
+
+Trong thư mục `starter_v0`, chạy:
+
+```bash
+streamlit run ui.py
+```
+
 ## Folder Map
 
 ```text
